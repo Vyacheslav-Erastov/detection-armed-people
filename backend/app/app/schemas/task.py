@@ -1,0 +1,27 @@
+from datetime import datetime
+from uuid import UUID
+from pydantic import BaseModel
+
+from app.models.task import TaskType
+from app.schemas.event import Event
+
+
+class TaskBase(BaseModel):
+    name: str
+    type: TaskType
+    video_titles: list[str] | None = None
+    rtsp_links: list[str] | None = None
+    start_time: datetime | None
+    end_time: datetime | None
+
+
+class Task(TaskBase):
+    id: UUID
+
+
+class TaskCreate(Task):
+    pass
+
+
+class TaskDetailed(TaskBase):
+    events: list["Event"] = []
