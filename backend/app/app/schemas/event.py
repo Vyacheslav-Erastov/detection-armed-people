@@ -10,6 +10,9 @@ class EventBase(BaseModel):
     rtsp_time: datetime | None = None
     video_time: time | None = None
 
+    class Config:
+        orm_mode = True
+
 
 class EventUpdate(EventBase):
     pass

@@ -15,6 +15,9 @@ class TaskBase(BaseModel):
     start_time: datetime | None
     end_time: datetime | None
 
+    class Config:
+        orm_mode = True
+
 
 class TaskUpdate(TaskBase):
     pass

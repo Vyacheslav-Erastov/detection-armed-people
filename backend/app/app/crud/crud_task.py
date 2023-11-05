@@ -3,8 +3,8 @@ from app.models.task import Task
 from app import schemas
 
 
-class CRUDTask(CRUDBase):
+class CRUDTask(CRUDBase[Task, schemas.TaskCreate, schemas.TaskUpdate]):
     pass
 
 
-task = CRUDTask[Task, schemas.TaskCreate, schemas.TaskUpdate]
+task = CRUDTask(Task)

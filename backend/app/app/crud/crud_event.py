@@ -3,8 +3,8 @@ from app.models.event import Event
 from app import schemas
 
 
-class CRUDEvent(CRUDBase):
+class CRUDEvent(CRUDBase[Event, schemas.EventCreate, schemas.EventUpdate]):
     pass
 
 
-event = CRUDEvent[Event, schemas.EventCreate, schemas.EventUpdate]
+event = CRUDEvent(Event)

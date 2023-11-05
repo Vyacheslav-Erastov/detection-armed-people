@@ -17,8 +17,8 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
     def __init__(self, model: Type[ModelType]):
         self.model = model
 
-    def get(self, db: Session, id: UUID) -> Optional[ModelType]:
-        stmt = select(self.model).where(self.model.id == id)
+    def get(self, db: Session, _id: UUID) -> Optional[ModelType]:
+        stmt = select(self.model).where(self.model.id == _id)
         result = db.execute(stmt).first()
         return result
 
@@ -32,16 +32,16 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         result = db.execute(stmt).first()
         return result
 
-    def update(self, db: Session, obj_in: UpdateSchemaType, id: UUID) -> ModelType:
+    def update(self, db: Session, obj_in: UpdateSchemaType, _id: UUID) -> ModelType:
         stmt = (
             update(self.model)
-            .where(self.model.id == id)
+            .where(self.model.id == _id)
             .values(**obj_in.model_dump(exclude_unset=True))
         )
         result = db.execute(stmt).first()
         return result
 
-    def remove(self, db: Session, id: UUID) -> ModelType:
-        stmt = delete(self.model).where(self.model.id == id)
+    def remove(self, db: Session, _id: UUID) -> ModelType:
+        stmt = delete(self.model).where(self.model.id == _id)
         db.execute(stmt)
-        return id
+        return _id
