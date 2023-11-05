@@ -11,10 +11,19 @@ class TaskType(str, Enum):
     RTSP_DETECTION = "RTSP_DETECTION"
 
 
+class TaskStatus(str, Enum):
+    CREATED = "CREATED"
+    PROCESSING = "PROCESSING"
+    STOPPED = "STOPPED"
+    ERROR = "ERROR"
+    COMPLETED = "COMPLETED"
+
+
 class Task(Base):
     __tablename__ = "tasks"
     name: Mapped[str] = mapped_column(unique=True)
     type: Mapped[TaskType]
+    status: Mapped[TaskStatus]
     video_titles: Mapped[list[str]] = mapped_column(default=None)
     rtsp_links: Mapped[list[str]] = mapped_column(default=None)
     start_time: Mapped[datetime]

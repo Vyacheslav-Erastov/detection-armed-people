@@ -11,6 +11,10 @@ class EventBase(BaseModel):
     video_time: time | None = None
 
 
+class EventUpdate(EventBase):
+    pass
+
+
 class Event(EventBase):
     id: UUID
     task_id: UUID
