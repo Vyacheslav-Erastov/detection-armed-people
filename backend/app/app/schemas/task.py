@@ -31,5 +31,5 @@ class TaskCreate(Task):
     pass
 
 
-class TaskDetailed(TaskBase):
+class TaskDetailed(Task):
     events: list["Event"] = []
