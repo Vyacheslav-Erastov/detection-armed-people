@@ -1,10 +1,14 @@
-const GET = (path: string) => {
+import axios from "axios"
+import { InterfaceType } from "typescript"
+
+const FORM = (path: string, data: {}) => {
     let config = {
-        method: "GET",
+        method: "POST",
         headers: {
-            "accept": "application/json"
-        }
+            "Content-Type": "multipart/form-data"
+        },
+        data: data
     }
 
-    return fetch(path, config).then(data => promise(data))
+    return axios.post(path, config)
 }

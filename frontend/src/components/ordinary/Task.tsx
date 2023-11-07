@@ -1,5 +1,5 @@
 import Stack from "@mui/material/Stack";
-import { ITaskDetailed } from "../types/Task";
+import { ITaskDetailed } from "../../types/Task";
 import Box from "@mui/material/Box";
 import Chip from "@mui/material/Chip";
 import Typography from "@mui/material/Typography";
@@ -18,6 +18,7 @@ function CustomStack(props: { key_: string, value: string }) {
         </Stack>
     )
 }
+
 
 export function Task({ task }: ITaskDetailedProps) {
     return (

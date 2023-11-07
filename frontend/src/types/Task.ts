@@ -31,7 +31,7 @@ export interface ITask extends ITaskBase {
     id: string
 }
 
-export interface ITaskCreate extends ITask {
+export interface ITaskCreate extends ITaskBase {
 
 }
 
