@@ -25,8 +25,8 @@ class Task(Base):
     name: Mapped[str] = mapped_column(unique=True)
     type: Mapped[TaskType]
     status: Mapped[TaskStatus]
-    video_titles: Mapped[list[str]] = mapped_column(default=None, type_=JSON)
-    rtsp_links: Mapped[list[str]] = mapped_column(default=None, type_=JSON)
+    video_titles: Mapped[list[str] | None] = mapped_column(default=None, type_=JSON)
+    rtsp_links: Mapped[list[str] | None] = mapped_column(default=None, type_=JSON)
     start_time: Mapped[datetime]
-    end_time: Mapped[datetime] = mapped_column(default=None)
+    end_time: Mapped[datetime | None] = mapped_column(default=None)
     events: Mapped[list["Event"]] = relationship(cascade="all, delete-orphan")

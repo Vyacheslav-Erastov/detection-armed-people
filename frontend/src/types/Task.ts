@@ -36,5 +36,5 @@ export interface ITaskCreate extends ITaskBase {
 }
 
 export interface ITaskDetailed extends ITask {
-    events?: IEvent[]
+    events: IEvent[]
 }

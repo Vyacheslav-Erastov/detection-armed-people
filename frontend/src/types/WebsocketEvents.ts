@@ -1,0 +1,6 @@
+export enum WebSocketEvent {
+    TASK_CREATE = "TASK_CREATE",
+    TASK_UPDATE = "TASK_UPDATE",
+    TASK_DELETE = "TASK_DELETE",
+    EVENT_CREATE = "EVENT_CREATE"
+}

@@ -2,8 +2,8 @@ import Task from "../components/ordinary/Task";
 import { useTasks } from "../hooks/tasks";
 
 function Tasks() {
-    
-    const {tasks, error, loading} = useTasks()
+
+    const { tasks, error, loading, onChange } = useTasks()
 
     return (
         <div>
