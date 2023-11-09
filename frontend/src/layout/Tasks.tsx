@@ -1,17 +1,56 @@
-import Task from "../components/ordinary/Task";
-import { useApi } from "../hooks/api";
-import { useTasks } from "../hooks/tasks";
-import WebsocketProvider from "../providers/WebsocketProvider";
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
+import { ITaskDetailed } from "../types/Task";
+import { Chip } from '@mui/material';
 
-function Tasks() {
+interface ITasksDetailedProps {
+    tasks: ITaskDetailed[]
+    endpoints: {}
+}
 
-    const { tasks, error, loading, onChange } = useTasks()
-    const { endpoints, websocket_path } = useApi()
+
+
+function Tasks({ tasks, endpoints }: ITasksDetailedProps) {
     return (
-        <div>
-            <WebsocketProvider onChange={onChange} url={websocket_path} />
-            {tasks.map(task => <Task task={task} />)}
-        </div>
+        <>
+            <TableContainer component={Paper}>
+                <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                    <TableHead>
+                        <TableRow>
+                            <TableCell align="justify">Название задачи</TableCell>
+                            <TableCell align="justify">Статус задачи</TableCell>
+                            <TableCell align="justify">Тип задачи</TableCell>
+                            <TableCell align="justify">Дата создания</TableCell>
+                            <TableCell align="justify">Дата завершения</TableCell>
+                            <TableCell align="justify">Действия</TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {tasks.map((task) => (
+                            <TableRow
+                                key={task.id}
+                                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                            >
+                                <TableCell component="th" scope="row">
+                                    {task.name}
+                                </TableCell>
+                                <TableCell align="justify"><Chip label={task.status} color="primary" /></TableCell>
+                                <TableCell align="justify"><Chip label={task.type} color="primary" /></TableCell>
+                                <TableCell align="justify">{task.start_time}</TableCell>
+                                <TableCell align="justify">{task.end_time}</TableCell>
+                                <TableCell align="justify">Действия</TableCell>
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+            {/* () */}
+        </>
     );
 }
 

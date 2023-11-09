@@ -19,17 +19,19 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
 
     def get(self, db: Session, _id: UUID) -> Optional[ModelType]:
         stmt = select(self.model).where(self.model.id == _id)
-        result = db.execute(stmt).first()
+        result = db.scalars(stmt).first()
         return result
 
     def get_multi(self, db: Session) -> list[ModelType]:
         stmt = select(self.model)
-        result = db.execute(stmt).all()
+        result = db.scalars(stmt).all()
         return result
 
     def create(self, db: Session, obj_in: CreateSchemaType) -> ModelType:
         stmt = insert(self.model).values(**obj_in.model_dump()).returning(self.model)
         result = db.execute(stmt).first()
+        db.commit()
+        
         return result
 
     def update(self, db: Session, obj_in: UpdateSchemaType, _id: UUID) -> ModelType:

@@ -1,20 +1,21 @@
 import { useEffect, useState } from "react";
-import { ITask, ITaskBase, ITaskDetailed } from "../types/Task";
+import { ITaskDetailed } from "../types/Task";
 import { get_tasks } from "../api/endpoints/tasks";
 import { AxiosError } from "axios";
 import { WebSocketEvent } from "../types/WebsocketEvents";
-import { IEvent, IEventBase } from "../types/Event";
+import { useApi } from "./api";
 
 export function useTasks() {
     const [tasks, setTasks] = useState<ITaskDetailed[]>([])
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState("")
+    const { endpoints, websocket_path } = useApi()
 
     async function fetchTasks() {
         try {
             setError("")
             setLoading(true)
-            const response = await get_tasks()
+            const response = await get_tasks(endpoints)
             setTasks(response.data)
         } catch (e: unknown) {
             const error = e as AxiosError

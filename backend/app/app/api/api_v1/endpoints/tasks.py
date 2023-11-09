@@ -26,7 +26,6 @@ def create_task(
         **task_in.model_dump(exclude_unset=True), start_time=datetime.now()
     )
     task = crud.task.create(db=db, obj_in=task_create)
-    db.commit()
     return task
 
 

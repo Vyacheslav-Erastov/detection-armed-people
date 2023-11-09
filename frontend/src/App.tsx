@@ -8,9 +8,9 @@ import { theme } from './assets/theme/theme';
 function App() {
   return (
     <div>
-      <ThemeProvider theme={theme}>
-        <Base />
-      </ThemeProvider>
+      {/* <ThemeProvider theme={theme}> */}
+      <Base />
+      {/* </ThemeProvider> */}
     </div>
   );
 }

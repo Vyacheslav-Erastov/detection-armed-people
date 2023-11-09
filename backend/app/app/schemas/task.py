@@ -25,7 +25,9 @@ class TaskBase(BaseModel):
 
 
 class TaskUpdate(TaskBase):
-    pass
+    name: str | None = None
+    type: TaskType | None = None
+    status: TaskStatus | None = None
 
 
 class Task(TaskBase):
