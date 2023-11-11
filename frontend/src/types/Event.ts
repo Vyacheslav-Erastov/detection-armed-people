@@ -1,5 +1,6 @@
 export interface IEventBase {
     event_path: string
+    description?: string
     video_title?: string
     rtsp_link?: string
     rtsp_time?: string

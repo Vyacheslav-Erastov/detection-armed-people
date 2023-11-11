@@ -9,9 +9,12 @@ from app.core.config import settings
 
 
 def extract_files(file_objects: list[UploadFile], task_id: UUID):
-    dest_dir = os.path.join(settings.WORKING_DIRECTORY, "input", str(task_id))
+    dest_dir = os.path.join(settings.INPUT_PATH, str(task_id))
+    output_dir = os.path.join(settings.OUTPUT_PATH, str(task_id))
     if not os.path.exists(dest_dir):
         os.mkdir(dest_dir)
+    if not os.path.exists(output_dir):
+        os.mkdir(output_dir)
     try:
         for file_obj in file_objects:
             if zipfile.is_zipfile(file_obj.file):

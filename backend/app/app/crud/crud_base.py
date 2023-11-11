@@ -28,22 +28,21 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         return result
 
     def create(self, db: Session, obj_in: CreateSchemaType) -> ModelType:
-        stmt = insert(self.model).values(**obj_in.model_dump()).returning(self.model)
-        result = db.execute(stmt).first()
-        db.commit()
-        
+        stmt = insert(self.model).values(**obj_in.dict()).returning(self.model)
+        result = db.scalars(stmt).first()
         return result
 
     def update(self, db: Session, obj_in: UpdateSchemaType, _id: UUID) -> ModelType:
         stmt = (
             update(self.model)
             .where(self.model.id == _id)
-            .values(**obj_in.model_dump(exclude_unset=True))
+            .values(**obj_in.dict(exclude_unset=True))
+            .returning(self.model)
         )
-        result = db.execute(stmt).first()
+        result = db.scalars(stmt).first()
         return result
 
-    def remove(self, db: Session, _id: UUID) -> ModelType:
+    def remove(self, db: Session, _id: UUID) -> UUID:
         stmt = delete(self.model).where(self.model.id == _id)
         db.execute(stmt)
         return _id

@@ -8,7 +8,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { useState } from 'react';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
-import { InputLabel, MenuItem, Select, SelectChangeEvent, styled } from '@mui/material';
+import { Divider, InputLabel, MenuItem, Paper, Select, SelectChangeEvent, styled } from '@mui/material';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 
 const validationSchema = yup.object({
@@ -39,11 +39,11 @@ const VisuallyHiddenInput = styled('input')({
 
 
 function TaskCreateDialog({ open, handleClose }: { open: boolean, handleClose: any }) {
-    console.log("Okey")
+    const [type, setType] = useState('VIDEO_DETECTION');
     const formik = useFormik({
         initialValues: {
             name: '',
-            type: '',
+            type: { type },
             video_files: '',
             rtsp_links: ''
         },
@@ -53,41 +53,43 @@ function TaskCreateDialog({ open, handleClose }: { open: boolean, handleClose: a
             console.log(values)
         },
     });
-    const [type, setType] = useState('');
 
     const handleChange = (event: SelectChangeEvent) => {
-        setType(event.target.value as string);
+        setType(event.target.value as string)
     };
     return (
         <>
-            <Dialog open={open} onClose={handleClose} >
+            <Dialog open={open} onClose={handleClose} fullWidth>
                 <DialogTitle>Форма создания задачи</DialogTitle>
                 < DialogContent >
-                    <form onSubmit={formik.handleSubmit}>
+                    <TextField
+                        fullWidth
+                        margin='dense'
+                        id="name"
+                        name="name"
+                        label="Название задачи"
+                        value={formik.values.name}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        error={formik.touched.name && Boolean(formik.errors.name)}
+                        helperText={formik.touched.name && formik.errors.name}
+                    />
+                    <InputLabel id="demo-simple-select-label">Тип задачи</InputLabel>
+                    <Select
+                        margin='dense'
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        value={type}
+                        label="Тип задачи"
+                        onChange={handleChange}
+                    >
+                        <MenuItem value={"RTSP_DETECTION"}>RTSP_DETECTION</MenuItem>
+                        <MenuItem value={"VIDEO_DETECTION"} selected={true}>VIDEO_DETECTION</MenuItem>
+                    </Select>
+                    {type == "RTSP_DETECTION" &&
                         <TextField
                             fullWidth
-                            id="name"
-                            name="name"
-                            label="Название задачи"
-                            value={formik.values.name}
-                            onChange={formik.handleChange}
-                            onBlur={formik.handleBlur}
-                            error={formik.touched.name && Boolean(formik.errors.name)}
-                            helperText={formik.touched.name && formik.errors.name}
-                        />
-                        <InputLabel id="demo-simple-select-label">Тип задачи</InputLabel>
-                        <Select
-                            labelId="demo-simple-select-label"
-                            id="demo-simple-select"
-                            value={formik.values.type}
-                            label="Тип задачи"
-                            onChange={handleChange}
-                        >
-                            <MenuItem value={"RTSP_DETECTION"}>RTSP_DETECTION</MenuItem>
-                            <MenuItem value={"VIDEO_DETECTION"}>VIDEO_DETECTION</MenuItem>
-                        </Select>
-                        <TextField
-                            fullWidth
+                            margin='dense'
                             id="rtsp_links"
                             name="rtsp_links"
                             label="RTSP ссылки"
@@ -96,15 +98,17 @@ function TaskCreateDialog({ open, handleClose }: { open: boolean, handleClose: a
                             onBlur={formik.handleBlur}
                             error={formik.touched.rtsp_links && Boolean(formik.errors.rtsp_links)}
                             helperText={formik.touched.rtsp_links && formik.errors.rtsp_links}
-                        />
-                        <Button component="label" variant="contained" startIcon={<CloudUploadIcon />}>
-                            Upload file
-                            <VisuallyHiddenInput type="file" value={formik.values.video_files} multiple={true} />
-                        </Button>
-                        <Button color="primary" variant="contained" fullWidth type="submit">
-                            Submit
-                        </Button>
-                    </form>
+                        />}
+                    {type == "VIDEO_DETECTION" &&
+                        <div>
+                            <Button sx={{ margin: "1% 0" }} component="label" variant="contained" startIcon={<CloudUploadIcon />}>
+                                Загрузить файл
+                                <VisuallyHiddenInput type="file" value={formik.values.video_files} multiple={true} />
+                            </Button>
+                        </div>}
+                    <Button color="primary" variant="contained" fullWidth type="submit" onClick={() => formik.handleSubmit()}>
+                        Создать задачу
+                    </Button>
                 </DialogContent>
             </Dialog>
         </>

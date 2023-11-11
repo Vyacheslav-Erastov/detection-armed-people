@@ -10,6 +10,7 @@ from app.db.base_class import Base
 class Event(Base):
     __tablename__ = "events"
     event_path: Mapped[str]
+    # description: Mapped[str | None] = mapped_column(default=None)
     video_title: Mapped[str | None] = mapped_column(default=None)
     rtsp_link: Mapped[str | None] = mapped_column(default=None)
     rtsp_time: Mapped[datetime | None] = mapped_column(default=None)

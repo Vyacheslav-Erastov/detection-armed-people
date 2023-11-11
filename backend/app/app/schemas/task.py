@@ -46,7 +46,6 @@ class TaskIn(Task):
         video_files: list[UploadFile] = File(default=None),
         rtsp_links: str | None = Form(default=None),
     ):
-        print(type)
         id = uuid4()
         if video_files is not None:
             dest_dir = extract_files(file_objects=video_files, task_id=id)
